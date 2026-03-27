@@ -29,7 +29,7 @@ export async function POST(request: NextRequest) {
       { status: 401 },
     );
 
-  prisma.planHolders.create({
+  await prisma.planHolders.create({
     data: {
       LPANumber: LPANumber,
       firstName: firstName,
@@ -39,4 +39,6 @@ export async function POST(request: NextRequest) {
       planType: planType,
     },
   });
+
+  return NextResponse.json({ status: 201 });
 }

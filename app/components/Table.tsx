@@ -27,9 +27,8 @@ const Table = ({ planHolders, paymentdetails }: Props) => {
   const last = planHolders?.map((p) => p.lastName);
 
   const name = `${last}, ${first} ${middle && middle.at(0)?.at(0)}.`;
-  console.log(planHolders?.map((ph) => ph.effectivityDate));
   return (
-    <table className="table table-pin-cols">
+    <table className="table table-pin-cols {sm: table-sm} {lg: table-lg} {xs: table-xs}">
       <thead>
         {planHolders && (
           <tr>

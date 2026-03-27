@@ -1,16 +1,31 @@
 "use client";
 
-import { useState } from "react";
+import { NextResponse } from "next/server";
+import { ChangeEvent, useState } from "react";
 
 const AddModal = () => {
-  const [isVisible, setVisibility] = useState(false);
+  const [formData, setFormData] = useState({
+    LPANumber: "",
+    firstName: "",
+    lastName: "",
+    middleName: "",
+  });
+
   const handleSubmit = async () => {
-    const req = await fetch(process.env.NEXT_URL + "/api/planholders", {
+    const res = await fetch(process.env.NEXT_URL + "/api/planholders", {
       method: "POST",
+      headers: { "Content-Type": "application-json" },
+      body: JSON.stringify(formData),
     });
 
-    console.log(req.json());
+    if (res.ok) console.log(res.json());
   };
+
+  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setFormData({ ...formData, [e.target.id]: e.target.value });
+  };
+  const [isVisible, setVisibility] = useState(false);
+
   return (
     <>
       {/* You can open the modal using document.getElementById('ID').showModal() method */}
@@ -26,24 +41,44 @@ const AddModal = () => {
           >
             ✕
           </button>
-          <form action={handleSubmit}>
-            <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
-              <legend className="fieldset-legend">
-                Create a New Planholder
-              </legend>
-              <label className="label">LPA Number</label>
-              <input type="text" className="input" placeholder="LPAxxxxxx" />
-              <label className="label">First Name</label>
-              <input type="text" className="input" placeholder="Name" />
-              <label className="label">Last Name</label>
-              <input type="text" className="input" placeholder="Name" />
-              <label className="label">Middle Name</label>
-              <input type="text" className="input" placeholder="Name" />
-              <button type="submit" className="btn btn-accent">
-                Submit
-              </button>
-            </fieldset>
-          </form>
+          <fieldset className="fieldset bg-base-200 border-base-300 rounded-box border p-4">
+            <legend className="fieldset-legend">Create a New Planholder</legend>
+            <label className="label">LPA Number</label>
+            <input
+              type="text"
+              className="input"
+              placeholder="LPAxxxxxx"
+              key="LPANumber"
+              onChange={handleChange}
+            />
+            <label className="label">First Name</label>
+            <input
+              type="text"
+              className="input"
+              placeholder="Name"
+              key="firstName"
+              onChange={handleChange}
+            />
+            <label className="label">Last Name</label>
+            <input
+              type="text"
+              className="input"
+              placeholder="Name"
+              key="lastName"
+              onChange={handleChange}
+            />
+            <label className="label">Middle Name</label>
+            <input
+              type="text"
+              className="input"
+              placeholder="Name"
+              key="middleName"
+              onChange={handleChange}
+            />
+            <button className="btn btn-accent" onClick={handleSubmit}>
+              Submit
+            </button>
+          </fieldset>
         </div>
       </dialog>
     </>
