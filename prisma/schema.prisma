@@ -24,13 +24,13 @@ model PlanHolders {
   firstName       String
   middleName      String?
   lastName        String
-  effectivityDate String
-  planType        String
+  effectivityDate String?
+  planType        String?
 }
 
 model PaymentDetails {
   LPANumber String?
-  ORNumber  Int      @unique
-  ORDate    DateTime
+  ORNumber  Int     @unique
+  ORDate    String
   ORAmount  Float
 }

@@ -1,3 +1,4 @@
+import AddModal from "./components/AddModal";
 import Navbar from "./components/Navbar";
 import Table from "./components/Table";
 
@@ -9,6 +10,7 @@ export default async function Home() {
 
   return (
     <main className="p-2">
+      <AddModal />
       <Table planHolders={users} />
     </main>
   );
