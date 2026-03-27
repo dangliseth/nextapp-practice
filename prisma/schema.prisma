@@ -20,11 +20,11 @@ model User {
 }
 
 model PlanHolders {
-  LPANumber       String   @id
+  LPANumber       String  @id
   firstName       String
   middleName      String?
   lastName        String
-  effectivityDate DateTime
+  effectivityDate String
   planType        String
 }
 

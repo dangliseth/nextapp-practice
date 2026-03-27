@@ -1,4 +1,4 @@
-import { ReactNode } from "react";
+"use client";
 
 interface Props {
   planHolders?: Planholders[];
@@ -26,30 +26,31 @@ const Table = ({ planHolders, paymentdetails }: Props) => {
   const first = planHolders?.map((p) => p.firstName);
   const last = planHolders?.map((p) => p.lastName);
 
-  const name = `${last}, ${first} ${middle && middle[0]}`;
+  const name = `${last}, ${first} ${middle && middle.at(0)?.at(0)}.`;
+  console.log(planHolders?.map((ph) => ph.effectivityDate));
   return (
-    <table className="table table-zebra">
+    <table className="table table-pin-cols">
       <thead>
         {planHolders && (
-          <>
+          <tr>
             <th>LPA Number</th>
             <th>Name</th>
             <th>Effectivity Date</th>
             <th>Plan Type</th>
-          </>
+          </tr>
         )}
         {paymentdetails && (
-          <>
+          <tr>
             <th>LPA Number</th>
             <th>OR Number</th>
             <th>OR Date</th>
             <th>OR Amount</th>
-          </>
+          </tr>
         )}
       </thead>
       <tbody>
         {planHolders?.map((pH) => (
-          <tr>
+          <tr className="hover:bg-base-300" key={pH.LPANumber}>
             <td>{pH.LPANumber}</td>
             <td>{name}</td>
             <td>{pH.effectivityDate}</td>
@@ -57,7 +58,7 @@ const Table = ({ planHolders, paymentdetails }: Props) => {
           </tr>
         ))}
         {paymentdetails?.map((pH) => (
-          <tr>
+          <tr className="hover:bg-base-300" key={pH.ORNumber}>
             <td>{pH.LPANumber}</td>
             <td>{pH.ORNumber}</td>
             <td>{pH.ORDate}</td>

@@ -1,15 +1,15 @@
-import { GET } from "./api/planholders/route";
 import Navbar from "./components/Navbar";
 import Table from "./components/Table";
-import prisma from "./prisma";
 
-export default function Home() {
-  const pH = GET();
+export default async function Home() {
+  const response = await fetch(process.env.NEXT_URL + "/api/planholders"
+  , { method: "GET" });
+
+  const users = await response.json();
 
   return (
-    <main>
-      <Navbar />
-      <Table planHolders={async() => await pH} />
+    <main className="p-2">
+      <Table planHolders={users} />
     </main>
   );
 }
