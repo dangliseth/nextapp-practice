@@ -1,6 +1,5 @@
 "use client";
 
-import { NextResponse } from "next/server";
 import { ChangeEvent, useState } from "react";
 
 const AddModal = () => {
@@ -12,13 +11,18 @@ const AddModal = () => {
   });
 
   const handleSubmit = async () => {
-    const res = await fetch(process.env.NEXT_URL + "/api/planholders", {
+    const res = await fetch("/api/planholders", {
       method: "POST",
-      headers: { "Content-Type": "application-json" },
+      headers: { "Content-Type": "application/json" },
       body: JSON.stringify(formData),
     });
 
-    if (res.ok) console.log(res.json());
+    if (res.ok) {
+      const data = await res.json();
+      console.log(data, formData);
+    } else {
+      console.error("Failed to create planholder");
+    }
   };
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -48,7 +52,7 @@ const AddModal = () => {
               type="text"
               className="input"
               placeholder="LPAxxxxxx"
-              key="LPANumber"
+              id="LPANumber"
               onChange={handleChange}
             />
             <label className="label">First Name</label>
@@ -56,7 +60,7 @@ const AddModal = () => {
               type="text"
               className="input"
               placeholder="Name"
-              key="firstName"
+              id="firstName"
               onChange={handleChange}
             />
             <label className="label">Last Name</label>
@@ -64,7 +68,7 @@ const AddModal = () => {
               type="text"
               className="input"
               placeholder="Name"
-              key="lastName"
+              id="lastName"
               onChange={handleChange}
             />
             <label className="label">Middle Name</label>
@@ -72,7 +76,7 @@ const AddModal = () => {
               type="text"
               className="input"
               placeholder="Name"
-              key="middleName"
+              id="middleName"
               onChange={handleChange}
             />
             <button className="btn btn-accent" onClick={handleSubmit}>

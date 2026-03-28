@@ -1,5 +1,5 @@
 import { PrismaClient } from "@/generated/prisma/client";
-import { PrismaMariaDb } from "@prisma/adapter-mariadb"; 
+import { PrismaMariaDb } from "@prisma/adapter-mariadb";
 const globalForPrisma = global as unknown as {
   prisma: PrismaClient; 
 }; 
@@ -9,7 +9,7 @@ const adapter = new PrismaMariaDb({
   password: process.env.DATABASE_PASSWORD,
   database: process.env.DATABASE_NAME,
   port: 3306,
-  connectionLimit: 5, 
+  connectionLimit: 5,
 }); 
 const prisma =
   globalForPrisma.prisma ||
