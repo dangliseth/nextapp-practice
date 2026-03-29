@@ -20,7 +20,8 @@ model User {
 }
 
 model PlanHolders {
-  LPANumber       String  @id
+  id              Int     @id @default(autoincrement())
+  LPANumber       String  @unique
   firstName       String
   middleName      String?
   lastName        String

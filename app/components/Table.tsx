@@ -22,11 +22,6 @@ interface PaymentDetails {
 }
 
 const Table = ({ planHolders, paymentdetails }: Props) => {
-  const middle = planHolders?.map((p) => p.middleName);
-  const first = planHolders?.map((p) => p.firstName);
-  const last = planHolders?.map((p) => p.lastName);
-
-  const name = `${last}, ${first} ${middle && middle.at(0)?.at(0)}.`;
   return (
     <table className="table table-pin-cols {sm: table-sm} {lg: table-lg} {xs: table-xs}">
       <thead>
@@ -51,7 +46,9 @@ const Table = ({ planHolders, paymentdetails }: Props) => {
         {planHolders?.map((pH) => (
           <tr className="hover:bg-base-300" key={pH.LPANumber}>
             <td>{pH.LPANumber}</td>
-            <td>{name}</td>
+            <td>
+              {`${pH.lastName}, ${pH.firstName} ${pH.middleName ? `${pH.middleName.charAt(0)}.` : ""}`}
+            </td>
             <td>{pH.effectivityDate}</td>
             <td>{pH.planType}</td>
           </tr>

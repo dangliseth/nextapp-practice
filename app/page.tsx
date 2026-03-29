@@ -1,4 +1,4 @@
-import AddModal from "./components/AddModal";
+import AddModal from "./components/AddPlanholderModal";
 import Table from "./components/Table";
 
 export default async function Home() {
