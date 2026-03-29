@@ -54,19 +54,6 @@ const AddModal = () => {
               <legend className="fieldset-legend">
                 Create a New Planholder
               </legend>
-              <label className="label">LPA Number</label>
-              <input
-                {...register("LPANumber")}
-                type="text"
-                className="input"
-                placeholder="LPAxxxxxx"
-                id="LPANumber"
-              />
-              {errors.LPANumber?.message && (
-                <span className="text-red-500 text-sm">
-                  {errors.LPANumber?.message}
-                </span>
-              )}
               <label className="label">First Name</label>
               <input
                 {...register("firstName")}
