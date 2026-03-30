@@ -40,7 +40,7 @@ const AddModal = () => {
       >
         Add a Planholder <IoMdAddCircleOutline />
       </button>
-      <dialog id="my_modal_3" className="modal" open={isVisible}>
+      <dialog id="addPlanholder" className="modal" open={isVisible}>
         <div className="modal-box">
           {/* if there is a button in form, it will close the modal */}
           <button

@@ -7,8 +7,8 @@ export const planholderSchema = z.object({
 });
 
 export const paymentDetailsSchema = z.object({
-    LPANumber: z.string().min(1, "Required"),
-    ORNumber: z.number().min(1, "Required"),
-    ORDate: z.date(),
-    ORAmount: z.number()
-})
+  LPANumber: z.string().min(1, "Required"),
+  ORAmount: z.number().min(1, "Amount required"),
+  planType: z.string().min(1, "Plan type required"),
+  effectivityDate: z.string().min(1, "Required"),
+});

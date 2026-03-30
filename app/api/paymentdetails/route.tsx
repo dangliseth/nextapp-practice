@@ -1,5 +1,7 @@
+import { paymentDetailsSchema } from "@/app/components/ZodSchemas";
 import prisma from "@/app/prisma";
 import { NextRequest, NextResponse } from "next/server";
+import z, { date } from "zod";
 
 export async function GET(request: NextRequest) {
   const payments = await prisma.paymentDetails.findMany();
@@ -8,7 +10,55 @@ export async function GET(request: NextRequest) {
 }
 
 export async function POST(request: NextRequest) {
-    const body = await request.json();
+  const body = await request.json();
+  body.ORAmount = parseFloat(body.ORAmount);
 
-    
+  const validation = paymentDetailsSchema.safeParse(body);
+
+  if (!validation.success) {
+    return NextResponse.json(
+      { error: z.treeifyError(validation.error) },
+      { status: 400 },
+    );
+  }
+
+  const { LPANumber, ORAmount, planType, effectivityDate } = validation.data;
+
+  try {
+    const newPayment = await prisma.$transaction(async (tx) => {
+      const details = await tx.paymentDetails.create({
+        data: {
+          LPANumber,
+          ORNumber: "wait",
+          ORAmount,
+          ORDate: "wait",
+        },
+      });
+
+      const year = new Date().getFullYear().toString();
+      const newId = details.id.toString().padStart(4, "0");
+
+      const currentDate = new Date().toLocaleDateString();
+
+      const updated = await tx.paymentDetails.update({
+        where: { id: details.id },
+        data: { ORNumber: `OR${year}${newId}`, ORDate: `${currentDate}` },
+      });
+
+      return updated;
+    });
+
+    if (newPayment) {
+      prisma.planHolders.update({
+        where: { LPANumber: LPANumber },
+        data: { effectivityDate: effectivityDate, planType: planType },
+      });
+    }
+    return NextResponse.json(newPayment, { status: 201 });
+  } catch (error) {
+    return NextResponse.json(
+      { error: "Failed to create payment." },
+      { status: 500 },
+    );
+  }
 }

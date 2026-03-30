@@ -30,8 +30,9 @@ model PlanHolders {
 }
 
 model PaymentDetails {
+  id        Int     @id @default(autoincrement())
   LPANumber String?
-  ORNumber  Int     @unique
+  ORNumber  String  @unique
   ORDate    String
   ORAmount  Float
 }
