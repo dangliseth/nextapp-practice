@@ -11,7 +11,6 @@ export async function GET(request: NextRequest) {
 
 export async function POST(request: NextRequest) {
   const body = await request.json();
-  body.ORAmount = parseFloat(body.ORAmount);
 
   const validation = paymentDetailsSchema.safeParse(body);
 
@@ -30,7 +29,7 @@ export async function POST(request: NextRequest) {
         data: {
           LPANumber,
           ORNumber: "wait",
-          ORAmount,
+          ORAmount: Number(ORAmount),
           ORDate: "wait",
         },
       });
@@ -45,15 +44,13 @@ export async function POST(request: NextRequest) {
         data: { ORNumber: `OR${year}${newId}`, ORDate: `${currentDate}` },
       });
 
-      return updated;
-    });
-
-    if (newPayment) {
       prisma.planHolders.update({
         where: { LPANumber: LPANumber },
         data: { effectivityDate: effectivityDate, planType: planType },
       });
-    }
+
+      return updated;
+    });
     return NextResponse.json(newPayment, { status: 201 });
   } catch (error) {
     return NextResponse.json(

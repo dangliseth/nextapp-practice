@@ -1,4 +1,4 @@
-import z from "zod";
+import z, { stringFormat } from "zod";
 
 export const planholderSchema = z.object({
   firstName: z.string().min(1, "First Name is required"),
@@ -8,7 +8,7 @@ export const planholderSchema = z.object({
 
 export const paymentDetailsSchema = z.object({
   LPANumber: z.string().min(1, "Required"),
-  ORAmount: z.number().min(1, "Amount required"),
+  ORAmount: z.string().min(1, "Amount required"),
   planType: z.string().min(1, "Plan type required"),
   effectivityDate: z.string().min(1, "Required"),
 });
