@@ -44,14 +44,16 @@ export async function POST(request: NextRequest) {
         data: { ORNumber: `OR${year}${newId}`, ORDate: `${currentDate}` },
       });
 
-      prisma.planHolders.update({
-        where: { LPANumber: LPANumber },
-        data: { effectivityDate: effectivityDate, planType: planType },
-      });
-
       return updated;
     });
-    return NextResponse.json(newPayment, { status: 201 });
+    const updatedPH = await prisma.planHolders.update({
+      where: { LPANumber: LPANumber },
+      data: {
+        effectivityDate: effectivityDate,
+        planType: planType,
+      },
+    });
+    return NextResponse.json({ newPayment, updatedPH }, { status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create payment." },

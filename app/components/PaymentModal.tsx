@@ -6,6 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import z from "zod";
 import { FaMoneyBillWave } from "react-icons/fa6";
+import prisma from "../prisma";
 
 type PaymentDetailsFormData = z.infer<typeof paymentDetailsSchema>;
 const PaymentModal = () => {
