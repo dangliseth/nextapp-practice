@@ -39,21 +39,16 @@ export async function POST(request: NextRequest) {
 
       const currentDate = new Date().toLocaleDateString();
 
-      const updated = await tx.paymentDetails.update({
+      await tx.paymentDetails.update({
         where: { id: details.id },
         data: { ORNumber: `OR${year}${newId}`, ORDate: `${currentDate}` },
       });
-
-      return updated;
+      await tx.planHolders.update({
+        where: { LPANumber: LPANumber },
+        data: { planType: planType, effectivityDate: effectivityDate },
+      });
     });
-    const updatedPH = await prisma.planHolders.update({
-      where: { LPANumber: LPANumber },
-      data: {
-        effectivityDate: effectivityDate,
-        planType: planType,
-      },
-    });
-    return NextResponse.json({ newPayment, updatedPH }, { status: 201 });
+    return NextResponse.json({ status: 201 });
   } catch (error) {
     return NextResponse.json(
       { error: "Failed to create payment." },
